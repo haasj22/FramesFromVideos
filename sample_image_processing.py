@@ -17,7 +17,7 @@ def convertVideos(fileLocation):
     count = 1
     for x in os.listdir(fileLocation):
         file_name = os.path.splitext(x)[0]
-        output_path = "/home/langa21/extract_videos/video_" + "#" + str(count) + "_" + file_name + "_frames"
+        output_path = "/home/langa21/extract_videos/video_" + "#" + file_name + "_" + str(count) + "_frames"
         createFolder(output_path)
         os.system("ffmpeg -i /home/langa21/extract_videos/MockDropsDataDLSR_20200913/" + x + " -r 10 " + output_path + "/image%05d.jpg -hide_banner")
         count += 1
