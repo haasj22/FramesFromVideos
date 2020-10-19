@@ -1,33 +1,38 @@
 import numpy as np
 import os, sys
 
+#This is for extracting the frames from the videos and audio clips, also creates folder for frames to be placed into
 
-# Create the file location for where the extracted videos into frames go
-def create_folder(folder_name):
+#create the file location for where the extracted videos into frames go
+def createFolder(folderName):
     try:
-        if not os.path.exists(folder_name):
-            os.makedirs(folder_name)
+        if not os.path.exists(folderName):
+            os.makedirs(folderName)
     except OSError:
-        print("Folder already exists")
+            print("Folder already exists")
 
 
-# Converts the videos into frames and places them inside the associated created folder
-def convert_videos(file_location, folder_name):
+#converts the videos into frames and places them inside the associated created folder
+def convertVideos(fileLocation):
     count = 1
-    for x in os.listdir("./" + file_location + '/'):
-        create_folder("./sample_images/" + folder_name + "/video_" + str(count) + "_frames")
-        os.system("ffmpeg -i sample_images/" + folder_name + "/" + x + " -r 4 sample_images/"
-                  + folder_name + "/video_" + str(count) + "_frames/image%05d.jpg -hide_banner")
+    for x in os.listdir(fileLocation):
+        file_name = os.path.splitext(x)[0]
+        output_path = "/home/langa21/extract_videos/video_" + "#" + str(count) + "_" + file_name + "_frames"
+        createFolder(output_path)
+        os.system("ffmpeg -i /home/langa21/extract_videos/MockDropsDataDLSR_20200913/" + x + " -r 10 " + output_path + "/image%05d.jpg -hide_banner")
         count += 1
 
 
-# Saves the audio from each video into a specified directory
-def convert_audio(file_location, folder_name):
+
+def convertAudio(fileLocation, folderName):
     count = 0
-    create_folder("./blue_background_sample_images/audio_clips")
-    for x in os.listdir("./" + file_location + "/"):
-        # os.system("ffmpeg -i sample_images/" + folderName + "/" + x + " -f mp3 -vn sample_images/" + folderName
-        # + "/audio_clips/audio_clip_" + str(count) + ".mp3 -hide_banner")
-        os.system("ffmpeg -i blue_background_sample_images/" + x
-                  + " -f mp3 -vn blue_background_sample_images/audio_clips/audio_clip_" + str(count) + ".mp3 -hide_banner")
+#     createFolder("./sample_images/" + folderName + "/audio_clips")
+    createFolder("./blue_background_sample_images/regular_speed/" + folderName + "/audio_clips")
+    for x in os.listdir("./" + fileLocation + "/"):
+        # os.system("ffmpeg -i sample_images/" + folderName + "/" + x + " -f mp3 -vn sample_images/" + folderName + "/audio_clips/audio_clip_" + str(count) + ".mp3 -hide_banner")
+        os.system("ffmpeg -i blue_background_sample_images/regular_speed/" + folderName + "/" + x + " -f mp3 -vn blue_background_sample_images/regular_speed/" + folderName + "/audio_clips/regular_clip_" + str(count) + ".mp3 -hide_banner")
         count += 1
+
+# Need to be changed accordingly to proper directory
+convertVideos("/home/langa21/extract_videos/MockDropsDataDLSR_20200913/")
+# convertAudio("./blue_background_sample_images/regular_speed/tennis_balls", "tennis_balls")
